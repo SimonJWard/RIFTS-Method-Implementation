@@ -15,7 +15,7 @@ except:
 dirpath = "..\Data"
 
 # find all .txt files in the directory specified above
-files=RIFTS_utils.find('Spectrum*.txt', dirpath)
+files=RIFTS_utils.find('Spectrum__1*.txt', dirpath)
 # order files based on filename
 files = sorted(files, key=lambda x: int(x.split("__")[1].split(".txt")[0]))
 
@@ -37,24 +37,12 @@ for FileName in files:
     PeaksArray.append(Peak)
     print(Peak)
 
-plt.figure()
+# set times relative to first measurement
+TimesArray = [(time - TimesArray[0]) for time in TimesArray]
+
+# plot effective optical thickness measured against time spectra were modified
+plt.figure(figsize=(10, 8))
 plt.plot(TimesArray, PeaksArray,'x')
-
-## manually choose 2nL measurements to save
-
-# print('You will choose the data points that you would like to save')
-
-# plt.waitforbuttonpress()
-# print('Select points with mouse, left to add, right to pop out, middle to stop')
-# pts = []
-# pts = np.asarray(plt.ginput(-1, timeout=-1))
-# print(pts)
-# pt_time = (pts[:,0]).astype(int)
-# ptx=[]
-# for t in range(len(pt_time)):
-#     ind = (np.abs(Time - pt_time[t])).argmin()      #works out the closest point in time to the location of each click
-#     ptx.append(ind)
-#     print(ind)
-
-# OPL=Peakx1[ptx]
-# print(OPL)
+plt.ylabel("Effective Optical Thickness 2nL (nm*RIU)", fontsize=14)
+plt.xlabel("Time (s)", fontsize=14)
+plt.show()
